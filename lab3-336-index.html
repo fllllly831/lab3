@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网页设计实验</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: 'Open Sans', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 导航按钮样式 */
+        .toggle-button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .toggle-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, #66BB6A, #43A047);
+        }
+
+        /* 知识点视图样式 */
+        .knowledge-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            margin: 50px auto;
+            display: none;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .knowledge-header {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+        }
+
+        .center-image {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            margin-top: -100px;
+            z-index: 10;
+        }
+
+        .center-image img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            border: 5px solid white;
+        }
+
+        .knowledge-box {
+            position: absolute;
+            width: 200px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .knowledge-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .top-left {
+            top: 100px;
+            left: 50px;
+        }
+
+        .top-right {
+            top: 100px;
+            right: 50px;
+        }
+
+        .bottom {
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .knowledge-box h3 {
+            margin-top: 0;
+            color: #2E7D32;
+            font-weight: 600;
+        }
+
+        .knowledge-box ul {
+            padding-left: 20px;
+        }
+
+        .knowledge-box li {
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 400;
+        }
+
+        /* 新闻资讯网页样式 */
+        .news-container {
+            width: 800px;
+            margin: 50px auto;
+            display: none;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .news-header {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #2196F3, #1565C0);
+            color: white;
+        }
+
+        .news-columns {
+            display: flex;
+            padding: 20px;
+        }
+
+        .left-column, .right-column {
+            width: 48%;
+        }
+
+        .left-column {
+            padding-right: 20px;
+        }
+
+        .right-column {
+            padding-left: 20px;
+        }
+
+        .news-item {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+        }
+
+        .news-item h2 {
+            margin-bottom: 15px;
+            color: #1565C0;
+            font-weight: 600;
+        }
+
+        .news-item-images {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .news-item-images img {
+            width: 48%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .news-item-images img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .news-item p {
+            margin-bottom: 8px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .author {
+            color: #777;
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        .hot-news {
+            margin-bottom: 20px;
+        }
+
+        .hot-news h3 {
+            margin-bottom: 10px;
+            color: #1565C0;
+            font-weight: 600;
+        }
+
+        .hot-news a {
+            color: #1565C0;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .hot-news a:hover {
+            text-decoration: underline;
+        }
+
+        .hot-news img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .hot-news img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 平滑滚动效果 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 页面标题样式 */
+        .page-title {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面标题 -->
+    <h1 class="page-title">网页设计实验</h1>
+
+    <!-- 导航按钮 -->
+    <button class="toggle-button" id="toggleButton">切换到知识点视图</button>
+
+    <!-- 知识点视图 -->
+    <div id="knowledge-view" class="knowledge-container">
+        <div class="knowledge-header">
+            <h2>知识点视图</h2>
+        </div>
+        <div class="center-image">
+            <img src="中央背景图片.png" alt="中央背景图片">
+        </div>
+        <div class="knowledge-box top-left">
+            <h3>HTML基础和HTML5</h3>
+            <ul>
+                <li>HTML标签与属性</li>
+                <li>HTML5多媒体（视频与音频）</li>
+                <li>HTML5图像标签（画布和SVG）</li>
+				<li>HTML5地理定位</li>
+				<li>HTML5表单</li>
+            </ul>
+        </div>
+        <div class="knowledge-box top-right">
+            <h3>CSS基础和CSS3</h3>
+            <ul>
+                <li>CSS选择器</li>
+				<li>CSS样式</li>
+                <li>CSS盒模型与定位</li>
+                <li>CSS3的2D与3D转换</li>
+				<li>CSS3的过渡与动画</li>
+				<li>CSS3的边框效果</li>
+            </ul>
+        </div>
+        <div class="knowledge-box bottom">
+            <h3>JavaScript</h3>
+            <ul>
+                <li>数据类型</li>
+				<li>运算符</li>
+                <li>基础语法</li>
+                <li>BOM对象</li>
+				<li>DOM操作</li>
+				<li>JS特效</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 新闻资讯网页 -->
+    <div id="news-view" class="news-container">
+        <div class="news-header">
+            <h2>新闻资讯</h2>
+        </div>
+        <div class="news-columns">
+            <div class="left-column">
+                <div class="news-item">
+                    <h2><b>我国脑机接口正式迈向产业化</b></h2>
+                    <div class="news-item-images">
+                        <img src="news1a.jpeg" alt="新闻图片1a">
+                        <img src="news1b.jpeg" alt="新闻图片1b">
+                    </div>
+                    <p class="author">作者：张三</p>
+                </div>
+                <div class="news-item">
+                    <h2><b>霸榜刷屏 “掀翻”美股 引爆AI圈的东方“黑马”DeepSeek</b></h2>
+                    <div class="news-item-images">
+                        <img src="news2a.jpeg" alt="新闻图片2a">
+                        <img src="news2b.jpeg" alt="新闻图片2b">
+                    </div>
+                    <p class="author">作者：李四</p>
+                </div>
+                <div class="news-item">
+                    <h2><b>解放军无预警打响台海演习，接近实战需求？24小时内岛内宣布军演</b></h2>
+                    <div class="news-item-images">
+                        <img src="news3a.jpeg" alt="新闻图片3a">
+                        <img src="news3b.jpeg" alt="新闻图片3b">
+                    </div>
+                    <p class="author">作者：王五</p>
+                </div>
+            </div>
+            <div class="right-column">
+                <h2>热点新闻</h2>
+                <div class="hot-news">
+                    <h3><a href="#">逃犯在台球室围观别人打台球，称赞一句“打的不错”。谁知打球的人竟然是警察，一眼认出逃犯后联系了增援，随即将其抓走</a></h3>
+                    <img src="hot1.jpeg" alt="热点图片1">
+                </div>
+                <div class="hot-news">
+                    <h3><a href="#">河南一高校因暴雨积水，学生们十分兴奋，过起泼水节。晚上被辅导员告知：水里有粪便</a></h3>
+                    <img src="hot2.jpeg" alt="热点图片2">
+                </div>
+                <div class="hot-news">
+                    <h3><a href="#">深夜，三名男子进火锅店行窃，用锤子把装钱的盒子狠狠砸开。一抬头突然发现，自己偷的是关公香火钱，立马下跪磕头：</a></h3>
+                    <img src="hot3.jpeg" alt="热点图片3">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 切换按钮功能
+        const toggleButton = document.getElementById('toggleButton');
+        const knowledgeView = document.getElementById('knowledge-view');
+        const newsView = document.getElementById('news-view');
+        let isKnowledgeViewVisible = false;
+
+        toggleButton.addEventListener('click', function() {
+            if (isKnowledgeViewVisible) {
+                // 隐藏知识点视图，显示新闻资讯
+                knowledgeView.style.display = 'none';
+                newsView.style.display = 'block';
+                toggleButton.textContent = '切换到知识点视图';
+            } else {
+                // 隐藏新闻资讯，显示知识点视图
+                newsView.style.display = 'none';
+                knowledgeView.style.display = 'block';
+                toggleButton.textContent = '切换到新闻资讯';
+            }
+            isKnowledgeViewVisible = !isKnowledgeViewVisible;
+        });
+
+        // 初始显示知识点视图
+        knowledgeView.style.display = 'block';
+        newsView.style.display = 'none';
+        toggleButton.textContent = '切换到新闻资讯';
+    </script>
+</body>
+</html>
